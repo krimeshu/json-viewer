@@ -1,5 +1,8 @@
 .json-viewer-bracket,
 .json-viewer-key,
+.json-viewer-colon,
+.json-viewer-comma,
+
 .json-viewer-array,
 .json-viewer-object,
 .json-viewer-string,
@@ -7,9 +10,5 @@
 .json-viewer-boolean,
 .json-viewer-null,
 .json-viewer-undefined {
-    display: inline-block;
-}
-
-.json-viewer-bracket.end-bracket {
-    display: block;
+    display: inline;
 }
