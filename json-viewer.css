@@ -1,14 +1,30 @@
+.json-viewer-row {
+    cursor: default;
+}
+
 .json-viewer-bracket,
 .json-viewer-key,
 .json-viewer-colon,
 .json-viewer-comma,
-
-/*.json-viewer-array,*/
-/*.json-viewer-object,*/
 .json-viewer-string,
 .json-viewer-number,
 .json-viewer-boolean,
 .json-viewer-null,
 .json-viewer-undefined {
+    display: inline;
+}
+
+.json-viewer-array-members.collapsed,
+.json-viewer-after-array-members.collapsed,
+.json-viewer-object-members.collapsed,
+.json-viewer-after-object-members.collapsed {
+    display: none;
+}
+
+.json-viewer-row .json-viewer-collapse-tag {
+    display: none;
+}
+
+.json-viewer-row.collapsed .json-viewer-collapse-tag {
     display: inline;
 }

@@ -18,6 +18,14 @@ JSONViewer.prototype = {
         return (document.querySelector && document.querySelector(unknown)) ||
             document.getElementById(unknown);
     },
+    _isDOM: ( typeof HTMLElement === 'object' ) ?
+        function (unknown) {
+            return unknown instanceof HTMLElement;
+        } :
+        function (unknown) {
+            return (unknown && typeof unknown === 'object'
+            && unknown.nodeType === 1 && typeof unknown.nodeName === 'string');
+        },
     _isThis: function (el, selector) {
         var _matches = (el.matches || el.matchesSelector
         || el.msMatchesSelector || el.mozMatchesSelector || el.webkitMatchesSelector || el.oMatchesSelector);
@@ -42,21 +50,47 @@ JSONViewer.prototype = {
             return null;
         }
     },
-    _isDOM: ( typeof HTMLElement === 'object' ) ?
-        function (unknown) {
-            return unknown instanceof HTMLElement;
-        } :
-        function (unknown) {
-            return (unknown && typeof unknown === 'object'
-            && unknown.nodeType === 1 && typeof unknown.nodeName === 'string');
-        },
+    _findPrevSibling: function (elem) {
+        while (elem = elem.previousSibling) {
+            if (elem.nodeType === 1) {
+                return elem;
+            }
+        }
+        return null;
+    },
+    _findNextSibling: function (elem) {
+        while (elem = elem.nextSibling) {
+            if (elem.nodeType === 1) {
+                return elem;
+            }
+        }
+        return null;
+    },
     setEventHandler: function (eventHandler) {
+        var self = this;
         if (this.eventHandler && this.eventListener) {
             this.eventHandler.removeEventListener('click', this.eventListener);
         }
         this.eventHandler = eventHandler;
         this.eventListener = function (e) {
-            // Todo: 点击事件处理
+            var target = e.target,
+                row = target && self._refluxToFind(target, '.json-viewer-row'),
+                isCollapsed = row && self._isThis(row, '.collapsed'),
+                members = row && self._findNextSibling(row),
+                afterMembers = members && self._findNextSibling(members);
+            if (members && afterMembers &&
+                self._isThis(members, '.json-viewer-array-members,.json-viewer-object-members') &&
+                self._isThis(afterMembers, '.json-viewer-after-array-members,.json-viewer-after-object-members')) {
+                if(isCollapsed) {
+                    row.classList.remove('collapsed');
+                    members.classList.remove('collapsed');
+                    afterMembers.classList.remove('collapsed');
+                } else {
+                    row.classList.add('collapsed');
+                    members.classList.add('collapsed');
+                    afterMembers.classList.add('collapsed');
+                }
+            }
         };
         this.eventHandler.addEventListener('click', this.eventListener);
     },
@@ -78,19 +112,20 @@ JSONViewer.prototype = {
                 break;
             case '[object Array]':
                 if (depth === 0) {
-                    buffer.push('<div class="json-viewer-row">');
+                    buffer.push('<div class="json-viewer-row collapsed">');
                 }
                 buffer.push('<div class="json-viewer-bracket">[</div>');
+                buffer.push('<div class="json-viewer-collapse-tag">...</div><div class="json-viewer-collapse-tag json-viewer-bracket">]</div>');
                 buffer.push('</div>');  // <div class="json-viewer-row">
-                buffer.push('<div class="json-viewer-array-members" style="padding-left:' + indentSize + 'px;">');
+                buffer.push('<div class="json-viewer-array-members collapsed" style="padding-left:' + indentSize + 'px;">');
                 for (i = 0, l = obj.length - 1; i <= l; i++) {
-                    buffer.push('<div class="json-viewer-row">');
+                    buffer.push('<div class="json-viewer-row collapsed">');
                     child = this.toJSON(obj[i], depth + 1, unfinished, i < l);
                     buffer.push(child);
                 }
                 buffer.push('</div>');      // <div class="json-viewer-array-members">
-                buffer.push('<div class="json-viewer-row">');
-                buffer.push('<div class="json-viewer-bracket end-bracket">]</div>');
+                buffer.push('<div class="json-viewer-after-array-members collapsed json-viewer-row">');
+                buffer.push('<div class="json-viewer-bracket">]</div>');
                 if (_isLast) {
                     buffer.push('<div class="json-viewer-comma">, </div>');
                 }
@@ -98,11 +133,12 @@ JSONViewer.prototype = {
                 break;
             case '[object Object]':
                 if (depth === 0) {
-                    buffer.push('<div class="json-viewer-row">');
+                    buffer.push('<div class="json-viewer-row collapsed">');
                 }
                 buffer.push('<div class="json-viewer-bracket">{</div>');
+                buffer.push('<div class="json-viewer-collapse-tag">...</div><div class="json-viewer-collapse-tag json-viewer-bracket">}</div>');
                 buffer.push('</div>');  // <div class="json-viewer-row">
-                buffer.push('<div class="json-viewer-object-members" style="padding-left:' + indentSize + 'px;">');
+                buffer.push('<div class="json-viewer-object-members collapsed" style="padding-left:' + indentSize + 'px;">');
                 var keys = [];
                 for (var k in obj) {
                     if (obj.hasOwnProperty(k)) {
@@ -111,7 +147,7 @@ JSONViewer.prototype = {
                 }
                 for (i = 0, l = keys.length - 1; i <= l; i++) {
                     k = keys[i];
-                    buffer.push('<div class="json-viewer-row">');
+                    buffer.push('<div class="json-viewer-row collapsed">');
                     buffer.push('<div class="json-viewer-key">"');
                     buffer.push(k);
                     buffer.push('"</div><div class="json-viewer-comma">: </div>');
@@ -119,8 +155,8 @@ JSONViewer.prototype = {
                     buffer.push(child);
                 }
                 buffer.push('</div>');      // <div class="json-viewer-object-members">
-                buffer.push('<div class="json-viewer-row">');
-                buffer.push('<div class="json-viewer-bracket end-bracket">}</div>');
+                buffer.push('<div class="json-viewer-after-object-members collapsed json-viewer-row">');
+                buffer.push('<div class="json-viewer-bracket">}</div>');
                 if (_isLast) {
                     buffer.push('<div class="json-viewer-comma">, </div>');
                 }
