@@ -111,6 +111,8 @@ JSONViewer.prototype = {
             expand = this.expand | 0,
             quoteKeys = !!this.quoteKeys,
             rowClass = this.rowClass || 'json-viewer-row',
+            collapseClass = (expand > 0 && depth >= expand ? ' collapsed' : ''),
+            subCollapseClass = (expand > 0 && depth + 1 >= expand ? ' collapsed' : ''),
             child, childType,
             i, l;
         if (unfinished.indexOf(obj) >= 0) {
@@ -123,20 +125,20 @@ JSONViewer.prototype = {
                 break;
             case '[object Array]':
                 if (depth === 0) {
-                    buffer.push('<div class="' + rowClass + ' collapsed">');
+                    buffer.push('<div class="' + rowClass + collapseClass + '">');
                 }
                 buffer.push('<div class="json-viewer-bracket">[</div>');
                 buffer.push('<div class="json-viewer-collapse-tag json-viewer-ellipsis">...</div>');
                 buffer.push('<div class="json-viewer-collapse-tag json-viewer-bracket">]</div>');
                 buffer.push('</div>');  // <div class="json-viewer-row">
-                buffer.push('<div class="json-viewer-array-members collapsed" style="padding-left:' + indentSize + 'px;">');
+                buffer.push('<div class="json-viewer-array-members' + collapseClass + '" style="padding-left:' + indentSize + 'px;">');
                 for (i = 0, l = obj.length - 1; i <= l; i++) {
-                    buffer.push('<div class="' + rowClass + ' collapsed">');
+                    buffer.push('<div class="' + rowClass + collapseClass + '">');
                     child = this.toJSON(obj[i], depth + 1, unfinished, i < l);
                     buffer.push(child);
                 }
                 buffer.push('</div>');      // <div class="json-viewer-array-members">
-                buffer.push('<div class="json-viewer-after-array-members collapsed ' + rowClass + '">');
+                buffer.push('<div class="json-viewer-after-array-members ' + rowClass + collapseClass + '">');
                 buffer.push('<div class="json-viewer-bracket">]</div>');
                 if (_isLast) {
                     buffer.push('<div class="json-viewer-comma">, </div>');
@@ -145,13 +147,13 @@ JSONViewer.prototype = {
                 break;
             case '[object Object]':
                 if (depth === 0) {
-                    buffer.push('<div class="' + rowClass + ' collapsed">');
+                    buffer.push('<div class="' + rowClass + collapseClass + '">');
                 }
                 buffer.push('<div class="json-viewer-bracket">{</div>');
                 buffer.push('<div class="json-viewer-collapse-tag json-viewer-ellipsis">...</div>');
                 buffer.push('<div class="json-viewer-collapse-tag json-viewer-bracket">}</div>');
                 buffer.push('</div>');  // <div class="json-viewer-row">
-                buffer.push('<div class="json-viewer-object-members collapsed" style="padding-left:' + indentSize + 'px;">');
+                buffer.push('<div class="json-viewer-object-members' + collapseClass + '" style="padding-left:' + indentSize + 'px;">');
                 var keys = [];
                 for (var k in obj) {
                     if (obj.hasOwnProperty(k)) {
@@ -160,15 +162,17 @@ JSONViewer.prototype = {
                 }
                 for (i = 0, l = keys.length - 1; i <= l; i++) {
                     k = keys[i];
-                    buffer.push('<div class="' + rowClass + ' collapsed">');
-                    buffer.push('<div class="json-viewer-key">"');
-                    buffer.push(k);
-                    buffer.push('"</div><div class="json-viewer-comma">: </div>');
+                    buffer.push('<div class="' + rowClass + subCollapseClass + '">');
+                    buffer.push('<div class="json-viewer-key">');
+                    quoteKeys && buffer.push('"');
+                    buffer.push(quoteKeys ? k.replace(/"/g, '\\"') : k);
+                    quoteKeys && buffer.push('"');
+                    buffer.push('</div><div class="json-viewer-comma">: </div>');
                     child = this.toJSON(obj[k], depth + 1, unfinished, i < l);
                     buffer.push(child);
                 }
                 buffer.push('</div>');      // <div class="json-viewer-object-members">
-                buffer.push('<div class="json-viewer-after-object-members collapsed ' + rowClass + '">');
+                buffer.push('<div class="json-viewer-after-object-members ' + rowClass + collapseClass + '">');
                 buffer.push('<div class="json-viewer-bracket">}</div>');
                 if (_isLast) {
                     buffer.push('<div class="json-viewer-comma">, </div>');

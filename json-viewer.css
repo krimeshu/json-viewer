@@ -65,12 +65,12 @@
 }
 
 .json-viewer-row.theme-dark .json-viewer-string {
-    color: #8DD006;
+    color: #CCCC81;
 }
 
 .json-viewer-row.theme-dark .json-viewer-number,
 .json-viewer-row.theme-dark .json-viewer-boolean,
 .json-viewer-row.theme-dark .json-viewer-null,
 .json-viewer-row.theme-dark .json-viewer-undefined {
-    color: #CCCC81;
+    color: #8DD006;
 }
