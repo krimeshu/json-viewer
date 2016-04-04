@@ -7,8 +7,35 @@
 .json-viewer-ellipsis {
     background: #C0C0C0;
     padding: 0 6px;
-    margin: 0 4px;
+    margin: 0 2px;
     border-radius: 3px;
+}
+
+.json-viewer-array-members.collapsed,
+.json-viewer-after-array-members.collapsed,
+.json-viewer-object-members.collapsed,
+.json-viewer-after-object-members.collapsed {
+    display: none;
+}
+
+.json-viewer-bracket, .json-viewer-colon, .json-viewer-comma {
+    margin: 0 2px;
+}
+
+.json-viewer-row .json-viewer-collapse-tag {
+    display: none;
+}
+
+.json-viewer-row.collapsed .json-viewer-collapse-tag {
+    display: inline;
+}
+
+.json-viewer-row.empty .json-viewer-collapse-tag.json-viewer-ellipsis {
+    display: none;
+}
+
+.json-viewer-row.empty .json-viewer-collapse-tag.json-viewer-bracket {
+    display: inline;
 }
 
 .json-viewer-bracket,
@@ -33,21 +60,6 @@
 
 .json-viewer-boolean, .json-viewer-null, .json-viewer-undefined {
     color: #585CF6;
-}
-
-.json-viewer-array-members.collapsed,
-.json-viewer-after-array-members.collapsed,
-.json-viewer-object-members.collapsed,
-.json-viewer-after-object-members.collapsed {
-    display: none;
-}
-
-.json-viewer-row .json-viewer-collapse-tag {
-    display: none;
-}
-
-.json-viewer-row.collapsed .json-viewer-collapse-tag {
-    display: inline;
 }
 
 /****************************************/
