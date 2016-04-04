@@ -1,5 +1,6 @@
 .json-viewer-row {
     cursor: default;
+    color: #545353;
 }
 
 .json-viewer-bracket,
@@ -12,6 +13,18 @@
 .json-viewer-null,
 .json-viewer-undefined {
     display: inline;
+}
+
+.json-viewer-key, .json-viewer-string {
+    color: #036A07;
+}
+
+.json-viewer-number {
+    color: #0000CD;
+}
+
+.json-viewer-boolean, .json-viewer-null, .json-viewer-undefined {
+    color: #585CF6;
 }
 
 .json-viewer-array-members.collapsed,
@@ -27,4 +40,8 @@
 
 .json-viewer-row.collapsed .json-viewer-collapse-tag {
     display: inline;
+}
+
+.json-viewer-row.theme-dark {
+    color: #CECECE;
 }

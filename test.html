@@ -1,4 +1,23 @@
+<style>
+    body, html {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    .box, .dark-box {
+        float: left;
+        width: 50%;
+        height: 100%;
+    }
+
+    .dark-box {
+        background-color: #545353;
+    }
+</style>
 <div class="box"></div>
+<div class="dark-box"></div>
 <link rel="stylesheet" href="json-viewer.css"/>
 <script src="json-viewer.js"></script>
 <script>
@@ -31,7 +50,19 @@
     var box = document.querySelector('.box');
     var jsonViewer = new JSONViewer({
         eventHandler: box,
-        indentSize: 20
+        indentSize: 20,
+        expand: 1,webprojwebproj
+        quoteKeys: true
     });
     box.innerHTML = jsonViewer.toJSON(packageJSON);
+
+    var darkBox = document.querySelector('.dark-box');
+    var jsonViewerDark = new JSONViewer({
+        eventHandler: darkBox,
+        indentSize: 20,
+        expand: 1,
+        quoteKeys: false,
+        theme: 'dark'
+    });
+    darkBox.innerHTML = jsonViewerDark.toJSON(packageJSON);
 </script>
