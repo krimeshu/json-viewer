@@ -68,9 +68,12 @@
     color: #CCCC81;
 }
 
-.json-viewer-row.theme-dark .json-viewer-number,
+.json-viewer-row.theme-dark .json-viewer-number {
+    color: #4178B3;
+}
+
 .json-viewer-row.theme-dark .json-viewer-boolean,
 .json-viewer-row.theme-dark .json-viewer-null,
 .json-viewer-row.theme-dark .json-viewer-undefined {
-    color: #8DD006;
+    color: #CC7832;
 }

@@ -1,6 +1,6 @@
 {
   "name": "json-viewer",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "description": "Provide ability to visualize json object with pure javascript, mostly used es5, suggest to use in your web app, not web page.",
   "main": "json-viewer.js",
   "scripts": {
