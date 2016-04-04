@@ -10,6 +10,7 @@ var JSONViewer = function (opts) {
         theme = opts.theme,
         rowClass = ['json-viewer-row'];
     this.indentSize = indentSize === undefined ? 14 : indentSize | 0;
+    this.expand = expand | 0;
     this.quoteKeys = !!quoteKeys;
     typeof (theme) === 'string' && rowClass.push('theme-' + theme);
     this.rowClass = rowClass.join(' ');
@@ -107,8 +108,9 @@ JSONViewer.prototype = {
             unfinished = _unfinished || [],
             depth = _depth | 0,
             indentSize = this.indentSize | 0,
+            expand = this.expand | 0,
             quoteKeys = !!this.quoteKeys,
-            rowClass = this.rowClass,
+            rowClass = this.rowClass || 'json-viewer-row',
             child, childType,
             i, l;
         if (unfinished.indexOf(obj) >= 0) {
@@ -124,7 +126,7 @@ JSONViewer.prototype = {
                     buffer.push('<div class="' + rowClass + ' collapsed">');
                 }
                 buffer.push('<div class="json-viewer-bracket">[</div>');
-                buffer.push('<div class="json-viewer-collapse-tag">...</div>');
+                buffer.push('<div class="json-viewer-collapse-tag json-viewer-ellipsis">...</div>');
                 buffer.push('<div class="json-viewer-collapse-tag json-viewer-bracket">]</div>');
                 buffer.push('</div>');  // <div class="json-viewer-row">
                 buffer.push('<div class="json-viewer-array-members collapsed" style="padding-left:' + indentSize + 'px;">');
@@ -146,7 +148,7 @@ JSONViewer.prototype = {
                     buffer.push('<div class="' + rowClass + ' collapsed">');
                 }
                 buffer.push('<div class="json-viewer-bracket">{</div>');
-                buffer.push('<div class="json-viewer-collapse-tag">...</div>');
+                buffer.push('<div class="json-viewer-collapse-tag json-viewer-ellipsis">...</div>');
                 buffer.push('<div class="json-viewer-collapse-tag json-viewer-bracket">}</div>');
                 buffer.push('</div>');  // <div class="json-viewer-row">
                 buffer.push('<div class="json-viewer-object-members collapsed" style="padding-left:' + indentSize + 'px;">');

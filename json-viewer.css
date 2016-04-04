@@ -1,6 +1,14 @@
 .json-viewer-row {
     cursor: default;
     color: #545353;
+    margin: 2px 0;
+}
+
+.json-viewer-ellipsis {
+    background: #C0C0C0;
+    padding: 0 6px;
+    margin: 0 4px;
+    border-radius: 3px;
 }
 
 .json-viewer-bracket,
@@ -42,6 +50,27 @@
     display: inline;
 }
 
+/****************************************/
+
 .json-viewer-row.theme-dark {
-    color: #CECECE;
+    color: #DEDEDE;
+}
+
+.json-viewer-row.theme-dark .json-viewer-ellipsis {
+    background: #666666;
+}
+
+.json-viewer-row.theme-dark .json-viewer-key {
+    color: #74AA04;
+}
+
+.json-viewer-row.theme-dark .json-viewer-string {
+    color: #8DD006;
+}
+
+.json-viewer-row.theme-dark .json-viewer-number,
+.json-viewer-row.theme-dark .json-viewer-boolean,
+.json-viewer-row.theme-dark .json-viewer-null,
+.json-viewer-row.theme-dark .json-viewer-undefined {
+    color: #CCCC81;
 }
